@@ -1,8 +1,19 @@
+const axios = require("axios").default;
+
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+
+// axios
+//   .get("https://api.github.com/users/ORiveraJr84")
+//   .then((successInfo) => {
+//     console.log("Success", successInfo);
+//   })
+//   .catch((errorInfo) => {
+//     console.log("Error", errorResponse);
+//   });
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -17,6 +28,17 @@
     and append the returned markup to the DOM as a child of .cards
 */
 
+const cardsWrapper = document.querySelector(".cards");
+axios
+  .get("https://api.github.com/users/ORiveraJr84")
+  .then((successInfo) => {
+    const profileInfo = successInfo.data;
+    cardsWrapper.append(cardCreator(profileInfo));
+  })
+  .catch((errorInfo) => {
+    console.log("Error", errorInfo);
+  });
+
 /*
   STEP 5: Now that you have your own card getting added to the DOM, either
     follow this link in your browser https://api.github.com/users/<Your github name>/followers,
@@ -29,6 +51,47 @@
 */
 
 const followersArray = [];
+
+axios
+  .get("https://api.github.com/users/ORiveraJr84/followers")
+  .then((successInfo) => {
+    const myFollowers = successInfo.data;
+    myFollowers.forEach((follower) => {
+      let login = follower.login;
+      followersArray.push(login);
+    });
+
+    /* List of LS Instructors Github username's:
+      "tetondan"
+      "dustinmyers"
+      "justsml"
+      "luishrd"
+      "bigknell"
+    */
+
+    followersArray.push(
+      "tetondan",
+      "dustinmyers",
+      "justsml",
+      "luishrd",
+      "bigknell"
+    );
+
+    followersArray.forEach((follower) => {
+      axios
+        .get(`https://api.github.com/users/${follower}`)
+        .then((successInfo) => {
+          console.log(successInfo.data);
+          cardsWrapper.appendChild(cardCreator(successInfo.data));
+        })
+        .catch((errorInfo) => {
+          console.log("Error", errorInfo);
+        });
+    });
+  })
+  .catch((errorInfo) => {
+    console.log("Error", errorInfo);
+  });
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -50,11 +113,42 @@ const followersArray = [];
     </div>
 */
 
-/*
-  List of LS Instructors Github username's:
-    tetondan
-    dustinmyers
-    justsml
-    luishrd
-    bigknell
-*/
+const cardCreator = (object) => {
+  const cardWrapper = document.createElement("div");
+  const img = document.createElement("img");
+  const cardInfo = document.createElement("div");
+  const name = document.createElement("h3");
+  const userName = document.createElement("p");
+  const location = document.createElement("p");
+  const profile = document.createElement("p");
+  const profileLink = document.createElement("a");
+  const followers = document.createElement("p");
+  const following = document.createElement("p");
+  const bio = document.createElement("p");
+
+  img.src = object.avatar_url;
+  name.textContent = object.name;
+  userName.textContent = object.login;
+  location.textContent = object.location;
+  profileLink.href = object.html_url;
+  profileLink.textContent = object.html_url;
+  followers.textContent = `Followers: ${object.followers}`;
+  following.textContent = `Following: ${object.following}`;
+
+  if (object.bio == null) {
+    bio.textContent = "Bio not Listed.";
+  } else {
+    bio.textContent = object.bio;
+  }
+
+  cardWrapper.classList.add("card");
+  cardInfo.classList.add("card-info");
+  name.classList.add("name");
+  userName.classList.add("username");
+
+  cardWrapper.append(img, cardInfo);
+  cardInfo.append(name, userName, location, profile, followers, following, bio);
+  profile.append(profileLink);
+
+  return cardWrapper;
+};

@@ -31,15 +31,15 @@ In this project we are going to be accessing the GitHub API and building a socia
 
 **Follow these steps for completing your project.**
 
-- [ ] Submit a Pull-Request to merge `<firstName-lastName>` Branch into `main` (student's Repo). **Please don't merge your own pull request**
-- [ ] Add your team lead as a reviewer on the pull-request.
-- [ ] Your team lead will count the project as complete by merging the branch back into `main` branch.
+- [✓] Submit a Pull-Request to merge `<firstName-lastName>` Branch into `main` (student's Repo). **Please don't merge your own pull request**
+- [✓] Add your team lead as a reviewer on the pull-request.
+- [✓] Your team lead will count the project as complete by merging the branch back into `main` branch.
 
 ### Project Setup
 
-- [ ] Navigate to the root of the project with your command line.
-- [ ] Run `npm install` to download any dependencies listed in the `package.json` file.
-- [ ] Run `npm start` to compile your project and launch a development server.
+- [✓] Navigate to the root of the project with your command line.
+- [✓] Run `npm install` to download any dependencies listed in the `package.json` file.
+- [✓] Run `npm start` to compile your project and launch a development server.
 
 ### Axios Setup
 
